@@ -24,6 +24,11 @@ public class TestValve extends ValveBase {
 
         System.out.println("Initialized with " + paramMap);
     }
+    
+    public void setRequestmatches(String matches)
+    {
+        
+    }
 
     @Override
     public void invoke(Request request, Response response) throws IOException, ServletException {
