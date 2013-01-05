@@ -6,6 +6,7 @@
   <name>Geogrep Tomcat</name>
   <description>Geogrep Tomcat Utilities</description>
   <build>
+  <finalName>geogrep-tomcat</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
