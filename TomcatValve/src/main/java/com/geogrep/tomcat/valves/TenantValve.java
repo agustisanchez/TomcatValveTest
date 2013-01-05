@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 
@@ -24,6 +25,8 @@ public class TenantValve extends ValveBase {
 
     private Map<String, String> paramMap = new HashMap<>();
 
+    private Pattern pattern = null;
+
     /**
      * Initializes the parameter map with the parameters defined in server.xml.
      * @param params a comma-delimited lists of requests parameters to add; i.e use commas instead of ampersands.
@@ -38,8 +41,9 @@ public class TenantValve extends ValveBase {
         logger.info("Initialized with parameters" + paramMap);
     }
 
-    public void setRequestmatches(String matches) {
-
+    public void setPattern(String regexp) {
+        pattern = Pattern.compile(regexp);
+        logger.info("Initialized with pattern" + regexp);
     }
 
     @SuppressWarnings("deprecation")
@@ -48,9 +52,11 @@ public class TenantValve extends ValveBase {
         if (logger.isDebugEnabled())
             logger.debug("Processing request \"" + request.getRequestURI() + "\".");
 
-        for (String param : paramMap.keySet()) {
-            if (request.getParameter(param) == null) {
-                request.addParameter(param, new String[] { paramMap.get(param) });
+        if (pattern != null && pattern.matcher(request.getRequestURI()).matches()) {
+            for (String param : paramMap.keySet()) {
+                if (request.getParameter(param) == null) {
+                    request.addParameter(param, new String[] { paramMap.get(param) });
+                }
             }
         }
         getNext().invoke(request, response);

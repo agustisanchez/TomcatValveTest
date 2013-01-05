@@ -1,0 +1,2 @@
+<Valve className="com.geogrep.tomcat.valves.TenantValve" params="tenant_id=test-tenant,api_key=12121212"
+	pattern="/[^/]*/api/.*|/[^/]*/proxy/.*|.*\.html" />
